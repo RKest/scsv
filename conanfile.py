@@ -11,9 +11,9 @@ class SCSVConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"without_tests": [True, False]}
     default_options = {"without_tests": True, "boost:without_test": True}
-    generators = "cmake"
+    generators = "CMakeDeps", "CMakeToolchain"
     exports_sources = "include/*", "CMakeLists.txt", "cmake/*", "LICENCE.txt"
-    requires = "boost/1.76.0", "magic_enum/0.8.0", "gtest/1.12.1"
+    requires = "boost/1.76.0", "magic_enum/0.8.0", "gtest/1.12.1", "mio/cci.20230303", "nanobench/4.3.11"
 
     def build(self):
         cmake = CMake(self)

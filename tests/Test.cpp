@@ -1,20 +1,7 @@
 #include "scsv/parse.hpp"
+#include "scsv/parse_file.hpp"
 
 #include "gtest/gtest.h"
-
-TEST(SCSVTest, IgnoreTest)
-{
-    // given: any character
-    constexpr char any_char = 'a';
-    // given: a stream containing said character
-    std::istringstream stream{"foobarbaz"};
-    // when: ignoring up to the character
-    scsv::detail::skip_header(stream, any_char);
-    // then: the stream is at the character
-    std::string rest;
-    std::getline(stream, rest);
-    EXPECT_EQ(rest, "rbaz");
-}
 
 struct ExampleSchema
 {
@@ -33,9 +20,10 @@ TEST(SCSVTest, ParseTest)
         return o;
     }();
     // given: a stream containing a CSV
-    std::istringstream stream{"1,2.0,three\n4,5.0,six\n"};
+    std::string_view data{"1,2.0,three\n4,5.0,six\n"};
     // when: parsing the CSV
-    auto const parsed = scsv::parse<ExampleSchema, options>(stream, ',', '\n');
+    std::vector<ExampleSchema> parsed;
+    scsv::parse<options>(parsed, data, ',', '\n');
     // then: the parsed data matches the CSV
     EXPECT_EQ(parsed.size(), 2);
     EXPECT_EQ(parsed[0].a, 1);

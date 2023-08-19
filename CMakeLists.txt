@@ -8,14 +8,14 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set_project_warnings(project_warnings)
 endif ()
 
+include(cmake/conan.cmake)
+
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     enable_testing()
     include(GoogleTest)
 endif ()
 
-include(cmake/conan.cmake)
-
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME} INTERFACE include/scsv/detail/mmap_reading.hpp)
 target_link_libraries(${PROJECT_NAME} INTERFACE ${CONAN_LIBS})
 target_include_directories(${PROJECT_NAME} INTERFACE include)
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
