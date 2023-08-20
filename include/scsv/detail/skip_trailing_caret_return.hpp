@@ -8,7 +8,7 @@ namespace scsv::detail
     {
         if constexpr (Opts.strip_trailing_caret_return)
         {
-            if (line.back() == '\n') { line.remove_suffix(1); }
+            if (line.back() == '\r') { line.remove_suffix(1); }
         }
     }
 } // namespace scsv::detail
