@@ -3,6 +3,7 @@ from conans import ConanFile, CMake
 
 class SCSVConan(ConanFile):
     name = "SCSV"
+    version = "0.1.0"
     license = "See LICENCE.txt at the root of the project"
     author = "Max Ind"
     url = "https://github.com/RKest/scsv"
@@ -11,9 +12,9 @@ class SCSVConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"without_tests": [True, False]}
     default_options = {"without_tests": True, "boost:without_test": True}
-    generators = "CMakeDeps", "CMakeToolchain"
+    generators = "cmake"
     exports_sources = "include/*", "CMakeLists.txt", "cmake/*", "LICENCE.txt"
-    requires = "boost/1.76.0", "magic_enum/0.8.0", "gtest/1.12.1", "mio/cci.20230303", "nanobench/4.3.11"
+    requires = "boost/1.76.0", "magic_enum/0.8.0", "mio/cci.20230303", "nanobench/4.3.11", "gtest/1.12.1"
 
     def build(self):
         cmake = CMake(self)
