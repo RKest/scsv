@@ -13,20 +13,20 @@ namespace scsv::detail
         }(value);
     };
 
-    template<int I, Optional Type>
-    constexpr void assign(Type& assign_to, const std::vector<std::string>& split)
+    template<int I, std::size_t Size, Optional Type>
+    constexpr void assign(Type& assign_to, const std::array<std::string_view, Size>& split)
     {
         assign_to = boost::lexical_cast<typename Type::value_type>(split[I]);
     }
 
-    template<int I, typename Type>
-    constexpr void assign(Type& assign_to, const std::vector<std::string>& split)
+    template<int I, std::size_t Size, typename Type>
+    constexpr void assign(Type& assign_to, const std::array<std::string_view, Size>& split)
     {
         assign_to = boost::lexical_cast<Type>(split[I]);
     }
 
-    template<typename Schema>
-    auto castAndAssign(const std::vector<std::string>& split, std::vector<Schema>& result)
+    template<typename Schema, std::size_t Size>
+    auto castAndAssign(const std::array<std::string_view, Size>& split, std::vector<Schema>& result)
     {
         return [&split, &result]<int I>(std::integral_constant<int, I>)
         {

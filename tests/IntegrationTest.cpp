@@ -22,7 +22,7 @@ TEST(File, Integration)
     // then: First element matches value in dataset
     EXPECT_EQ(parsed[0].year, 2011);
     EXPECT_EQ(parsed[0].industry_code_ANZSIC, "A");
-    EXPECT_EQ(parsed[0].industry_name_ANZSIC, "Agriculture Forestry and Fishing");
+    EXPECT_EQ(parsed[0].industry_name_ANZSIC, "\"Agriculture, Forestry and Fishing\"");
     EXPECT_EQ(parsed[0].rme_size_grp, "a_0");
     EXPECT_EQ(parsed[0].variable, "Activity unit");
     EXPECT_EQ(parsed[0].value, "46134");

@@ -2,10 +2,10 @@
 #include "scsv/detail/cast_and_assign.hpp"
 #include "scsv/detail/for_range.hpp"
 #include "scsv/detail/get_line.hpp"
+#include "scsv/detail/missized_row_exception.hpp"
 #include "scsv/detail/skip_header.hpp"
 #include "scsv/detail/skip_trailing_caret_return.hpp"
 #include "scsv/detail/split.hpp"
-#include "scsv/missized_row_exception.hpp"
 #include "scsv/options.hpp"
 
 #include <istream>
@@ -19,20 +19,19 @@ namespace scsv
 {
     template<AnyOptions auto Opts = Options{}, typename Schema>
         requires std::is_aggregate_v<Schema>
-    void parse(std::vector<Schema>& parsed, std::string_view data, char fields_delim = ',',
-               char lines_delim = '\n')
+    void parse(std::vector<Schema>& parsed, std::string_view data, char field_delim = ',',
+               char lines_delim = '\n', char quote = '"')
     {
-        std::vector<std::string> fields;
+        std::array<std::string_view, boost::pfr::tuple_size_v<Schema>> fields;
         detail::skip_header<Opts>(data, lines_delim);
         while (!data.empty())
         {
             auto line = detail::get_line(data, lines_delim);
             detail::skip_trailing_caret_return<Opts>(line);
-            detail::split(fields, line, fields_delim);
+            detail::split(fields, line, field_delim, quote);
             parsed.emplace_back();
             detail::forRange<int, 0, boost::pfr::tuple_size_v<Schema>>(
                 detail::castAndAssign(fields, parsed));
-            fields.clear();
         }
     }
 } // namespace scsv
